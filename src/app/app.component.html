@@ -1,1 +1,89 @@
-<div class="alert alert-danger">這裡是內容</div>
+<section>
+    <div class="row">
+        <fieldset class="col-md-6">
+            <legend>二傳名單</legend>
+            <textarea [(ngModel)]="input.setters"></textarea>
+        </fieldset>
+        <fieldset class="col-md-6">
+            <legend>欄中名單</legend>
+            <textarea [(ngModel)]="input.middleBlockers"></textarea>
+        </fieldset>
+    </div>
+    <fieldset>
+        <legend>邊攻名單</legend>
+        <textarea [(ngModel)]="input.group"></textarea>
+    </fieldset>
+    <button class="btn btn-primary btn-lg btn-block" (click)="go()">亂數分組</button>
+</section>
+
+<section>
+    <div class="row">
+        <div *ngFor="let team of teams; index as i" class="col-md-4">
+            <h3>隊伍{{i+1}}</h3>
+            <dl>
+                <dt>二傳</dt>
+                <dd>{{team[0]}}</dd>
+
+                <dt>攔中</dt>
+                <dd>{{team[1]}}</dd>
+                <dd>{{team[2]}}</dd>
+
+                <dt>主攻</dt>
+                <dd>{{team[3]}}</dd>
+                <dd>{{team[4]}}</dd>
+
+                <dt>對角</dt>
+                <dd>{{team[5]}}</dd>
+
+                <dt>自由</dt>
+                <dd>{{team[6]}}</dd>
+            </dl>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="row">
+        <div *ngFor="let team of teams; index as i" class="col-md-6">
+            <h3>隊伍{{i+1}}</h3>
+            <div class="border">
+              <div class="bg-warning">
+                <div class="row">
+                    <dl class="col-4">
+                        <dt>對角</dt>
+                        <dd>{{team[5]}}</dd>
+                    </dl>
+                    <dl class="col-4">
+                        <dt>攔中</dt>
+                        <dd>{{team[1]}}</dd>
+                    </dl>
+                    <dl class="col-4">
+                        <dt>主攻</dt>
+                        <dd>{{team[3]}}</dd>
+                    </dl>
+                </div>
+                <div class="row">
+                    <dl class="col-4">
+                        <dt>主攻</dt>
+                        <dd>{{team[4]}}</dd>
+                    </dl>
+                    <dl class="col-4">
+                        <dt>攔中</dt>
+                        <dd>{{team[2]}}</dd>
+                    </dl>
+                    <dl class="col-4">
+                        <dt>二傳</dt>
+                        <dd>{{team[0]}}</dd>
+                    </dl>
+                </div>
+              </div>
+                <div class="row">
+                    <dl class="offset-8 col-4">
+                        <dt>自由</dt>
+                        <dd>{{team[6]}}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
