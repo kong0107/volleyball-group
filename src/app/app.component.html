@@ -1,13 +1,9 @@
 <section>
     <div class="text-right">
-        分為
-        <input [(ngModel)]="amount" (change)="amountChanged(amount)"
-            style="width: 3em" class="text-center" type="number" min="1"
-        >組
+        分為<strong class="px-2">{{amount}}</strong>組
         <button class="btn btn-primary" (click)="amountChanged(amount+1)">+</button>
         <button class="btn btn-primary" (click)="amountChanged(amount-1)" [disabled]="amount==1">&minus;</button>
     </div>
-
     <div class="row">
         <div class="col-md-5">
             <fieldset>
@@ -18,9 +14,9 @@
                 <div class="border-bottom mb-1 pb-1">
                     <div class="d-inline-block text-center" style="width: 12em">姓名</div>
                 </div>
-                <div *ngFor="let player of players.setters; index as i">
-                    <button class="btn btn-link btn-sm" (click)="players.setters[i]=''" title="清空此名">&times;</button>
-                    <input [(ngModel)]="players.setters[i]">
+                <div *ngFor="let player of players.setters">
+                    <button class="btn btn-link btn-sm" (click)="player.clear()">&times;</button>
+                    <input [(ngModel)]="player.name">
                 </div>
             </fieldset>
             <fieldset>
@@ -31,9 +27,9 @@
                 <div class="border-bottom mb-1 pb-1">
                     <div class="d-inline-block text-center" style="width: 12em">姓名</div>
                 </div>
-                <div *ngFor="let player of players.middleBlockers; index as i">
-                    <button class="btn btn-link btn-sm" (click)="players.middleBlockers[i]=''" title="清空此名">&times;</button>
-                    <input [(ngModel)]="players.middleBlockers[i]">
+                <div *ngFor="let player of players.middleBlockers">
+                    <button class="btn btn-link btn-sm" (click)="player.clear()">&times;</button>
+                    <input [(ngModel)]="player.name">
                 </div>
             </fieldset>
         </div>
@@ -48,9 +44,9 @@
                     <div class="d-inline-block">自由人意願</div>
                 </div>
                 <div *ngFor="let player of players.wingSpikers; index as i">
-                    <button class="btn btn-link btn-sm" (click)="players.wingSpikers[i]=''; players.liberos[i]=false" title="清空此名">&times;</button>
-                    <input [(ngModel)]="players.wingSpikers[i]">
-                    <input [(ngModel)]="players.liberos[i]" type="checkbox" class="mx-3">
+                    <button class="btn btn-link btn-sm" (click)="player.clear()">&times;</button>
+                    <input [(ngModel)]="player.name">
+                    <input [(ngModel)]="player.isLibero" type="checkbox" class="mx-3">
                 </div>
             </fieldset>
         </div>
@@ -66,21 +62,21 @@
             <h3>隊伍{{i+1}}</h3>
             <dl>
                 <dt>二傳</dt>
-                <dd>{{team[0]}}</dd>
+                <dd>{{team[0].name}}</dd>
 
                 <dt>攔中</dt>
-                <dd>{{team[1]}}</dd>
-                <dd>{{team[2]}}</dd>
+                <dd>{{team[1].name}}</dd>
+                <dd>{{team[2].name}}</dd>
 
                 <dt>主攻</dt>
-                <dd>{{team[3]}}</dd>
-                <dd>{{team[4]}}</dd>
+                <dd>{{team[3].name}}</dd>
+                <dd>{{team[4].name}}</dd>
 
                 <dt>對角</dt>
-                <dd>{{team[5]}}</dd>
+                <dd>{{team[5].name}}</dd>
 
                 <dt>自由</dt>
-                <dd>{{team[6]}}</dd>
+                <dd>{{team[6].name}}</dd>
             </dl>
         </div>
     </div>
@@ -95,36 +91,36 @@
                 <div class="row">
                     <dl class="col-4">
                         <dt>對角</dt>
-                        <dd>{{team[5]}}</dd>
+                        <dd>{{team[5].name}}</dd>
                     </dl>
                     <dl class="col-4">
                         <dt>攔中</dt>
-                        <dd>{{team[1]}}</dd>
+                        <dd>{{team[1].name}}</dd>
                     </dl>
                     <dl class="col-4">
                         <dt>主攻</dt>
-                        <dd>{{team[3]}}</dd>
+                        <dd>{{team[3].name}}</dd>
                     </dl>
                 </div>
                 <div class="row">
                     <dl class="col-4">
                         <dt>主攻</dt>
-                        <dd>{{team[4]}}</dd>
+                        <dd>{{team[4].name}}</dd>
                     </dl>
                     <dl class="col-4">
                         <dt>攔中</dt>
-                        <dd>{{team[2]}}</dd>
+                        <dd>{{team[2].name}}</dd>
                     </dl>
                     <dl class="col-4">
                         <dt>二傳</dt>
-                        <dd>{{team[0]}}</dd>
+                        <dd>{{team[0].name}}</dd>
                     </dl>
                 </div>
               </div>
                 <div class="row">
                     <dl class="offset-8 col-4">
                         <dt>自由</dt>
-                        <dd>{{team[6]}}</dd>
+                        <dd>{{team[6].name}}</dd>
                     </dl>
                 </div>
             </div>

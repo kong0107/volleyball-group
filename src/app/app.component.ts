@@ -1,5 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 
+class Player {
+    name: string;
+    isLibero: boolean;
+
+    constructor(name: string = "") {
+        this.name = name;
+        this.isLibero = false;
+    }
+
+    clear() {
+        this.name = "";
+        this.isLibero = false;
+    }
+}
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,27 +28,26 @@ export class AppComponent implements OnInit {
     players = {
         setters: [],
         middleBlockers: [],
-        wingSpikers: [],
-        liberos: []
+        wingSpikers: []
     };
 
-    amountChanged(amount) {
-        this.amount = amount = Math.abs(+amount);
-        if(isNaN(amount)) return console.error("Variable `amount` should be a positive integer.");
+    resizeList(pos, length) {
+        const target = this.players[pos];
+        while(target.length < length) target.push(new Player);
+        while(target.length > length) target.pop();
+    }
 
-        const p = this.players;
-        if(amount > p.setters.length) {
-            p.setters.push.apply(p.setters, new Array(amount - p.setters.length));
-            p.middleBlockers.push.apply(p.middleBlockers, new Array(amount * 2 - p.middleBlockers.length));
-            p.wingSpikers.push.apply(p.wingSpikers, new Array(amount * 4 - p.wingSpikers.length));
-            p.liberos.push.apply(p.liberos, new Array(amount * 4 - p.liberos.length));
+    amountChanged(amount) {
+        this.teams = [];
+        this.amount = amount = Math.abs(+amount);
+        if(isNaN(amount)) {
+            this.amount = amount = 3;
+            return console.error("Variable `amount` should be a positive integer.");
         }
-        else {
-            p.setters = p.setters.slice(0, amount);
-            p.middleBlockers = p.middleBlockers.slice(0, amount * 2);
-            p.wingSpikers = p.wingSpikers.slice(0, amount * 4);
-            p.liberos = p.liberos.slice(0, amount * 4);
-        }
+
+        this.resizeList("setters", amount);
+        this.resizeList("middleBlockers", amount * 2);
+        this.resizeList("wingSpikers", amount * 4);
     };
 
     go() {
@@ -49,9 +64,8 @@ export class AppComponent implements OnInit {
 
         let nonLiberos = [];
         let liberos = [];
-        this.players.liberos.forEach((isLibero, index) => {
-            const player = this.players.wingSpikers[index];
-            if(isLibero) liberos.push(player);
+        this.players.wingSpikers.forEach(player => {
+            if(player.isLibero) liberos.push(player);
             else nonLiberos.push(player);
         });
         for(let i = 0; nonLiberos.length || liberos.length; ++i) {
@@ -66,15 +80,23 @@ export class AppComponent implements OnInit {
         }
     };
 
-    ngOnInit() {
-        const p = this.players;
-        /*p.setters = "歐貝利斯克\n歐西里斯\n太陽神".split("\n");
-        p.middleBlockers = "水野亞美\n愛野美奈子\n地場衛\n火野麗\n木野真琴\n土萌螢".split("\n");
-        p.wingSpikers = "爆裂丸\n赫魯斯\n加虎\n克莉姆\n龍哥\n阿蛇\n派卡拉\n詩芙麗\n蒙克\n塔露朵\n波奇郎\n烏力".split("\n");*/
+    setList(pos, names: string[]) {
+        const target = this.players[pos];
+        names.forEach(
+            (name, index) => { target[index].name = name; }
+        );
+    }
 
-        p.setters = "邱俊寬\n陳智浩\n未命名".split("\n");
-        p.middleBlockers = "楊曜璘\n蘇九如\n楊博文\n李勝祐\n楊令帆\n王琮鴻".split("\n");
-        p.wingSpikers = "陳俊宏\n黃耀賢\n王宏高\n張智傑\n陳哲佑\n楊筌凱\n彭奕璋\n蔡俊逸\n蕭力榮\n蔡佳勳\n魏冠杰\n黃柏瀚".split("\n");
-        p.liberos = (new Array(12)).fill(false);
+    ngOnInit() {
+        /*
+            "歐貝利斯克\n歐西里斯\n太陽神"
+            "水野亞美\n愛野美奈子\n地場衛\n火野麗\n木野真琴\n土萌螢"
+            "爆裂丸\n赫魯斯\n加虎\n克莉姆\n龍哥\n阿蛇\n派卡拉\n詩芙麗\n蒙克\n塔露朵\n波奇郎\n烏力"
+        */
+        const p = this.players;
+        this.amountChanged(this.amount);
+        this.setList("setters", "邱俊寬\n陳智浩\n未命名".split("\n"));
+        this.setList("middleBlockers", "楊曜璘\n蘇九如\n楊博文\n李勝祐\n楊令帆\n王琮鴻".split("\n"));
+        this.setList("wingSpikers", "陳俊宏\n黃耀賢\n王宏高\n張智傑\n陳哲佑\n楊筌凱\n彭奕璋\n蔡俊逸\n蕭力榮\n蔡佳勳\n魏冠杰\n黃柏瀚".split("\n"));
     }
 }
