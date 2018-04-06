@@ -1,9 +1,11 @@
 <section>
-    <div class="">
+    <div class="text-right">
         分為
         <input [(ngModel)]="amount" (change)="amountChanged(amount)"
             style="width: 3em" class="text-center" type="number" min="1"
         >組
+        <button class="btn btn-primary" (click)="amountChanged(amount+1)">+</button>
+        <button class="btn btn-primary" (click)="amountChanged(amount-1)" [disabled]="amount==1">&minus;</button>
     </div>
 
     <div class="row">
@@ -13,7 +15,11 @@
                     二傳名單
                     <small>（請輸入<strong>{{amount}}</strong>人）</small>
                 </legend>
+                <div class="border-bottom mb-1 pb-1">
+                    <div class="d-inline-block text-center" style="width: 12em">姓名</div>
+                </div>
                 <div *ngFor="let player of players.setters; index as i">
+                    <button class="btn btn-link btn-sm" (click)="players.setters[i]=''" title="清空此名">&times;</button>
                     <input [(ngModel)]="players.setters[i]">
                 </div>
             </fieldset>
@@ -22,7 +28,11 @@
                     攔中名單
                     <small>（請輸入<strong>{{amount*2}}</strong>人）</small>
                 </legend>
+                <div class="border-bottom mb-1 pb-1">
+                    <div class="d-inline-block text-center" style="width: 12em">姓名</div>
+                </div>
                 <div *ngFor="let player of players.middleBlockers; index as i">
+                    <button class="btn btn-link btn-sm" (click)="players.middleBlockers[i]=''" title="清空此名">&times;</button>
                     <input [(ngModel)]="players.middleBlockers[i]">
                 </div>
             </fieldset>
@@ -33,23 +43,26 @@
                     邊攻名單
                     <small>（請輸入<strong>{{amount*4}}</strong>人）</small>
                 </legend>
-                <div class="row">
-                    <input style="visibility: hidden">
-                    自由人意願
+                <div class="border-bottom mb-1 pb-1">
+                    <div class="d-inline-block text-center" style="width: 12em">姓名</div>
+                    <div class="d-inline-block">自由人意願</div>
                 </div>
-                <div *ngFor="let player of players.wingSpikers; index as i" class="row">
+                <div *ngFor="let player of players.wingSpikers; index as i">
+                    <button class="btn btn-link btn-sm" (click)="players.wingSpikers[i]=''; players.liberos[i]=false" title="清空此名">&times;</button>
                     <input [(ngModel)]="players.wingSpikers[i]">
-                    <input [(ngModel)]="players.liberos[i]" type="checkbox" class="ml-3">
+                    <input [(ngModel)]="players.liberos[i]" type="checkbox" class="mx-3">
                 </div>
             </fieldset>
         </div>
     </div>
-    <button class="btn btn-primary btn-lg btn-block my-4" (click)="go()">亂數分組</button>
+    <div class="offset-3 col-6">
+        <button class="btn btn-primary btn-lg btn-block my-4" (click)="go()">亂數分組</button>
+    </div>
 </section>
 
 <section>
     <div class="row">
-        <div *ngFor="let team of teams; index as i" class="col-md-4">
+        <div *ngFor="let team of teams; index as i" class="col-md-3">
             <h3>隊伍{{i+1}}</h3>
             <dl>
                 <dt>二傳</dt>

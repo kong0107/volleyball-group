@@ -39,12 +39,29 @@ export class AppComponent implements OnInit {
         this.teams = [];
         for(let i = 0; i < this.amount; ++i) this.teams.push([]);
 
-        for(let pos in this.players) {
-            if(pos == "liberos") continue;
-            let middle = this.players[pos].slice();
+        ["setters", "middleBlockers"].forEach(pos => {
+            let middle = this.players[pos].slice(); //< copy without changing the origin array
             for(let i = 0; middle.length; ++i) {
                 const rand = Math.floor(Math.random() * middle.length);
                 this.teams[i % this.amount].push(middle.splice(rand, 1)[0]);
+            }
+        });
+
+        let nonLiberos = [];
+        let liberos = [];
+        this.players.liberos.forEach((isLibero, index) => {
+            const player = this.players.wingSpikers[index];
+            if(isLibero) liberos.push(player);
+            else nonLiberos.push(player);
+        });
+        for(let i = 0; nonLiberos.length || liberos.length; ++i) {
+            if(nonLiberos.length) {
+                const rand = Math.floor(Math.random() * nonLiberos.length);
+                this.teams[i % this.amount].push(nonLiberos.splice(rand, 1)[0]);
+            }
+            else {
+                const rand = Math.floor(Math.random() * liberos.length);
+                this.teams[i % this.amount].push(liberos.splice(rand, 1)[0]);
             }
         }
     };
@@ -58,5 +75,6 @@ export class AppComponent implements OnInit {
         p.setters = "邱俊寬\n陳智浩\n未命名".split("\n");
         p.middleBlockers = "楊曜璘\n蘇九如\n楊博文\n李勝祐\n楊令帆\n王琮鴻".split("\n");
         p.wingSpikers = "陳俊宏\n黃耀賢\n王宏高\n張智傑\n陳哲佑\n楊筌凱\n彭奕璋\n蔡俊逸\n蕭力榮\n蔡佳勳\n魏冠杰\n黃柏瀚".split("\n");
+        p.liberos = (new Array(12)).fill(false);
     }
 }
