@@ -1,4 +1,29 @@
-textarea {
-    width: 100%;
-    min-height: 6em;
+input:not([type]), input[type="text"] {
+    width: 8em;
+}
+
+dl {
+    margin: 0;
+}
+
+#teamList dl::after {
+    display: block;
+    content: "";
+    clear: both;
+}
+
+#teamList dt, #teamList dd {
+    float: left;
+}
+
+#teamList dt::after {
+    content: "：";
+}
+
+#teamList dd:not(:first-of-type)::before {
+    content: "、";
+}
+
+#venueList dt, #venueList dd {
+    text-align: center;
 }
